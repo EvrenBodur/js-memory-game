@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Luckiest Guy", cursive;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #333;
+  color: white;
+}
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 800px;
+  height: 600px;
+  margin: auto;
+}
+.scoreBoard {
+  display: none;
+  width: 800px;
+  height: 300px;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+}
+
+.scoreTitle {
+  font-size: 4rem;
+}
+
+.score {
+  font-size: 3rem;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: transparent;
+  width: 100px;
+  height: 100px;
+  perspective: 1000px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.selected,
+.validated {
+  transform: rotateY(180deg);
+}
+
+.card-front {
+  background-color: aquamarine;
+}
+
+.card-back {
+  background-color: blueviolet;
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+img {
+  width: 100px;
+  border-radius: 50px;
+  box-shadow: 1px 5px 20px rgba(0, 0, 0, 0.253);
+}
+
+.timer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.493);
+
+  font-size: 20rem;
+}
