@@ -138,27 +138,32 @@ class Game {
     e.target.parentNode.parentNode.style.pointerEvents = "none";
 
     if (this.selectedCards[0] === this.selectedCards[1]) {
-      this.validated.push(id);
       document.querySelectorAll(".selected").forEach((el) => {
         el.classList.remove("selected");
         el.classList.add("validated");
       });
-      this.score += 10;
+      this.score += 100;
       scr.innerText = this.score;
       this.selectedCards = [];
     } else if (
       this.selectedCards.length === 2 &&
       this.selectedCards[0] !== this.selectedCards[1]
     ) {
-      this.score -= 10;
+      document
+        .querySelectorAll(".card-inner")
+        .forEach((el) => (el.style.pointerEvents = "none"));
+      this.score -= 25;
       scr.innerText = this.score;
 
       setTimeout(() => {
         document.querySelectorAll(".selected").forEach((el) => {
           el.classList.remove("selected");
           el.style.pointerEvents = "auto";
+          document
+            .querySelectorAll(".card-inner")
+            .forEach((el) => (el.style.pointerEvents = "auto"));
         });
-      }, 2000);
+      }, 1000);
       this.selectedCards = [];
     }
 
