@@ -15,7 +15,7 @@ const deck = [
 
 class ShuffleDeck {
   constructor(arr) {
-    this.arr = arr;
+    this.arr = [...arr, ...arr];
   }
   shuffle() {
     for (let i = this.arr.length - 1; i > 0; i--) {
@@ -32,14 +32,11 @@ class Board {
   constructor(deck) {
     this.deck = deck;
   }
-  dublicate() {
-    return [...this.deck, ...this.deck];
-  }
   create() {
     const board = document.createElement("div");
     board.className = "board";
     container.append(board);
-    this.dublicate().map((item) => {
+    this.deck.map((item) => {
       if (item.id !== 0) {
         const newCard = new Card(item);
         board.append(newCard.create());
@@ -93,7 +90,7 @@ class Card {
 
   clickHandle(e) {
     e.target.parentNode.parentNode.classList.add("selected");
-    newGame.validation(this.item.id);
+    newGame.validation(this.item.id, e, this.clickHandle);
   }
 }
 
@@ -102,20 +99,19 @@ class Game {
     this.shuffledDeck = new ShuffleDeck(deck);
     this.board = new Board(this.shuffledDeck.shuffle());
     this.selectedCards = [];
-    this.validated = [];
     this.score = 0;
   }
   start() {
     this.board.create();
     const start = document.querySelectorAll(".card-inner");
+    const timerElement = document.querySelector(".timer");
+    const scoreBoard = document.querySelector(".scoreBoard");
+    let count = 10;
 
     setTimeout(() => {
-      const timerElement = document.querySelector(".timer");
-      const scoreBoard = document.querySelector(".scoreBoard");
       start.forEach((el) => {
         el.classList.add("selected");
       });
-      let count = 10;
       const timer = setInterval(() => {
         if (count >= 0) {
           timerElement.innerText = count;
@@ -136,11 +132,12 @@ class Game {
     }, 11500);
   }
 
-  validation(id) {
+  validation(id, e, eventHandler) {
     const scr = document.querySelector(".score");
     this.selectedCards.push(id);
+    e.target.parentNode.parentNode.style.pointerEvents = "none";
+
     if (this.selectedCards[0] === this.selectedCards[1]) {
-      console.log("validated");
       this.validated.push(id);
       document.querySelectorAll(".selected").forEach((el) => {
         el.classList.remove("selected");
@@ -153,17 +150,21 @@ class Game {
       this.selectedCards.length === 2 &&
       this.selectedCards[0] !== this.selectedCards[1]
     ) {
-      console.log("not validated");
       this.score -= 10;
       scr.innerText = this.score;
-      setTimeout(() => {
-        document
-          .querySelectorAll(".selected")
-          .forEach((el) => el.classList.remove("selected"));
-      }, 1000);
 
+      setTimeout(() => {
+        document.querySelectorAll(".selected").forEach((el) => {
+          el.classList.remove("selected");
+          el.style.pointerEvents = "auto";
+        });
+      }, 2000);
       this.selectedCards = [];
     }
+
+    document
+      .querySelectorAll(".validated")
+      .forEach((el) => el.removeEventListener("click", eventHandler));
   }
 }
 

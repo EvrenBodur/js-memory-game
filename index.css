@@ -64,12 +64,7 @@
   transform: rotateY(180deg);
 }
 
-.card-front {
-  background-color: aquamarine;
-}
-
 .card-back {
-  background-color: blueviolet;
   transform: rotateY(180deg);
 }
 
